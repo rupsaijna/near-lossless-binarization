@@ -397,29 +397,31 @@ void write_binary_vectors(char *filename, char **words,
 		          unsigned long *binary_vector, long n_vecs, int n_bits)
 {
 	FILE *fo;
-	long i;
-	int j, n_long;
+        long i;
+        int j, n_long,jj;
 
-	if ((fo = fopen(filename, "w")) == NULL)
-	{
-		fprintf(stderr, "write_binary_vectors: can't open %s\n",
-		        filename);
-		exit(1);
-	}
+        if ((fo = fopen(filename, "w")) == NULL)
+        {
+                fprintf(stderr, "write_binary_vectors: can't open %s\n",
+                        filename);
+                exit(1);
+        }
 
-	/* first line is the number of vectors and number of bits per vectors */
-	//fprintf(fo, "%ld %d\n", n_vecs, n_bits);
+        /* first line is the number of vectors and number of bits per vectors */
 
-	for (i = 0, n_long = n_bits / (sizeof(long) * 8); i < n_vecs; ++i)
-	{
-		fprintf(fo, "%s ", words[i]);
-		for (j = 0; j < n_long; ++j)
-			fprintf(fo, "%s", long_to_binary(binary_vector[i*n_long + j]));
-			//fprintf(fo, " %lu", binary_vector[i*n_long + j]);
-		fprintf(fo, "\n");
-	}
+        for (i = 0, n_long = n_bits / (sizeof(long) * 8); i < n_vecs; ++i)
+        {
+                fprintf(fo, "%s ", words[i]);
+                for (j = 0; j < n_long; ++j)
+                {
+                        char* op=long_to_binary(binary_vector[i*n_long + j]);
+                        for(jj=0;jj<65;jj++)
+                                fprintf(fo, "%c%c", op[jj],' ');
+                }
+                fprintf(fo, "\n");
+        }
 
-	fclose(fo);
+        fclose(fo);
 }
 
 /* print the help (command line flags documentation) */
