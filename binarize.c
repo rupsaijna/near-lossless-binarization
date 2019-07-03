@@ -379,6 +379,18 @@ unsigned long *binarize(float *embedding, long n_vecs, int n_dims, int n_bits,
 	free(C);
 	return binary_vector;
 }
+char* long_to_binary(unsigned long value)
+{
+    static char output[65];
+    int i;
+    output[64] = '\0';
+    for (i = 63; i >= 0; --i, value >>= 1)
+    {
+        output[i] = (value & 1) + '0';
+    }
+    return output;
+}
+
 
 /* write the binary vectors into `filename` */
 void write_binary_vectors(char *filename, char **words,
@@ -396,13 +408,14 @@ void write_binary_vectors(char *filename, char **words,
 	}
 
 	/* first line is the number of vectors and number of bits per vectors */
-	fprintf(fo, "%ld %d\n", n_vecs, n_bits);
+	//fprintf(fo, "%ld %d\n", n_vecs, n_bits);
 
 	for (i = 0, n_long = n_bits / (sizeof(long) * 8); i < n_vecs; ++i)
 	{
-		fprintf(fo, "%s", words[i]);
+		fprintf(fo, "%s ", words[i]);
 		for (j = 0; j < n_long; ++j)
-			fprintf(fo, " %lu", binary_vector[i*n_long + j]);
+			fprintf(fo, "%s", long_to_binary(binary_vector[i*n_long + j]));
+			//fprintf(fo, " %lu", binary_vector[i*n_long + j]);
 		fprintf(fo, "\n");
 	}
 
