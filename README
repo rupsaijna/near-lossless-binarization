@@ -17,6 +17,12 @@ INSTALLATION
 	  - a C compiler (gcc, clang ...)
 	  - make
 
+	OpenBLAS
+	-------------------
+	sudo apt-get update
+
+	sudo apt-get install libopenblas-dev
+
 	Then run the command `make` to build the different binary executables.
 
 	[1] https://github.com/xianyi/OpenBLAS/wiki/Precompiled-installation-packages
@@ -33,6 +39,18 @@ USAGE
 
 	All the other existing flags documentation can be found with
 	`./binarize -h` or `./binarize --help`
+	
+	1a. For Glove Vectors
+	---------------------
+	Download Glove vectors : 
+		wget http://nlp.stanford.edu/data/glove.6B.zip	
+		unzip glove.6B.zip
+
+	Edit required file to include the number of words in file and the dimension on the 1st line
+		e.g. for glove.6B.100d.txt > 4000000 100 > save as glove.6B.100d.mod.txt
+
+	Run the binarizer
+		./binarize -input glove.6B.100d.mod.txt -output glove.6B.100d.bin.txt -n-bits 64
 
 	2. Evaluate semantic similarity
 	-------------------------------
