@@ -415,7 +415,7 @@ void write_binary_vectors(char *filename, char **words,
                 for (j = 0; j < n_long; ++j)
                 {
                         char* op=long_to_binary(binary_vector[i*n_long + j]);
-                        for(jj=0;jj<65;jj++)
+                        for(jj=0;jj<64;jj++)
                                 fprintf(fo, "%c%c", op[jj],' ');
                 }
                 fprintf(fo, "\n");
